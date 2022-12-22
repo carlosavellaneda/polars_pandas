@@ -34,7 +34,7 @@ As a side note, Rust's compile process might take a while, but once compiled, th
 
 ## The results
 
-Running this process locally on laptop retrieves the following results:
+Running this process locally on my laptop retrieves the following results:
 
 * Pandas: 62.57 seconds.
 * Polars: 11.621 seconds.
