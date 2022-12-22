@@ -1,0 +1,13 @@
+[package]
+name = "polars_pandas"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.66"
+color-eyre = "0.6.2"
+polars = { version="0.25.1", features=["polars-io", "lazy", "lazy_regex", "strings"] }
+polars-io = { version="0.25.1", features=["parquet"] }
+rand = "0.8.5"
