@@ -4,7 +4,7 @@ import polars as pl
 FILE = "cases_data.parquet"
 NEW_COLS = ["mediation", "cases_automator", "cases_massive"]
 COLS_TO_AGG = [
-    "mediation", "cases_automator", "cases_massive", "FLAG_INCOMING_GESTION", "FLAG_OUTGOING_GESTION"
+    "mediation", "cases_automator", "cases_massive", "incoming", "outgoing"
 ]
 
 
@@ -34,7 +34,7 @@ def aggregate_data(dataset: pl.DataFrame, columns: list) -> pl.DataFrame:
     ] + [
         pl.col(column).last().alias(column + "_last") for column in columns
     ]
-    return dataset.select(columns + ["CAS_CASE_ID"]).groupby("CAS_CASE_ID").agg(aggregation_list)
+    return dataset.select(columns + ["case_id"]).groupby("case_id").agg(aggregation_list)
 
 
 def main() -> None:
@@ -42,12 +42,12 @@ def main() -> None:
     print("reading the data")
     dataset = read_file(FILE)
     for column in NEW_COLS:
-        dataset = create_feat_on_regex(dataset=dataset, column="CI_EVENT_NAME", lookup_value=column)
+        dataset = create_feat_on_regex(dataset=dataset, column="event_name", lookup_value=column)
     agg_dataset = aggregate_data(dataset=dataset, columns=COLS_TO_AGG)
     print(agg_dataset.head())
     end = time.time()
     print(f"Spent {end - start} seconds in processing the data")
-    print(agg_dataset.filter(pl.col("CAS_CASE_ID") == 22368047.0))
+    print(agg_dataset.filter(pl.col("case_id") == 22368047.0))
 
 
 if __name__ == "__main__":
